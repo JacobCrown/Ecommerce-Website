@@ -10,6 +10,9 @@ class Category(models.Model):
     class Meta:
         verbose_name_plural = 'categories'
 
+    def get_absolute_url(self):
+        return reverse('store:category_list', kwargs={'category_slug': self.slug})
+
     def __str__(self):
         return self.name
 
