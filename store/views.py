@@ -3,7 +3,7 @@ from django.shortcuts import get_object_or_404, render
 from .models import Category, Product
 
 
-def all_products(request):
+def product_all(request):
     products = Product.products.all()
     context = {'products': products}
     return render(request, 'store/home.html', context)
@@ -12,7 +12,7 @@ def all_products(request):
 def product_detail(request, slug):
     product = get_object_or_404(Product, slug=slug, in_stock=True)
     context = {'product': product}
-    return render(request, 'store/products/detail.html', context)
+    return render(request, 'store/products/single.html', context)
 
 
 def category_list(request, category_slug):
