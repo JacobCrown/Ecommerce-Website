@@ -17,7 +17,7 @@ def product_detail(request, slug):
 
 def category_list(request, category_slug):
     category = get_object_or_404(Category, slug=category_slug)
-    products = category.product.all()
+    products = category.product.filter(is_active=True)
     context = {'products': products, 'category': category}
     return render(request, 'store/products/category.html', context)
     
