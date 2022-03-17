@@ -6,10 +6,16 @@ class Basket:
             basket = self.session['skey'] = {}
         self.basket = basket
 
-    def add(self, product):
+    def add(self, product, product_qty):
         product_id = product.id
 
         if product_id not in self.basket:
-            self.basket[product_id] = {'price': str(product.price)}
+            self.basket[product_id] = {'price': str(product.price), 'qty': int(product_qty)}
 
         self.session.modified = True
+
+    def __len__(self):
+        """
+        Get the basket data and count the qty od items
+        """
+        return sum(item['qty'] for item in self.basket.values())
