@@ -12,11 +12,13 @@ class Basket:
         self.basket = basket
 
     def add(self, product, product_qty):
-        product_id = product.id
+        product_id = str(product.id)
+        qty = product_qty
 
-        if product_id not in self.basket:
-            self.basket[product_id] = {'price': str(
-                product.price), 'qty': int(product_qty)}
+        if product_id in self.basket:
+            self.basket[product_id]['qty'] = qty
+        else:
+            self.basket[product_id] = {'price': str(product.price), 'qty': qty}
 
         self.save()
 
@@ -40,7 +42,7 @@ class Basket:
         return sum(item['qty'] for item in self.basket.values())
 
     def get_total_price(self):
-        return sum(Decimal(item['price'] * item['qty']) for item in self.basket.values())
+        return sum(Decimal(item['price']) * Decimal(item['qty']) for item in self.basket.values())
 
     def delete(self, product_id):
         """
@@ -57,4 +59,11 @@ class Basket:
     def save(self):
         self.session.modified = True
         
+    def update(self, product, qty):
+        product_id = str(product)
+        
+        if product_id in self.basket:
+            self.basket[product_id]['qty'] = qty
+
+        self.save()
 

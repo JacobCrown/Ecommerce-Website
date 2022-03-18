@@ -20,7 +20,7 @@
           <div class="col border-bottom">
             <div class="row p-3">
               <div class="col-6">Hardback Book</div>
-              <div class="col-6 text-end"><span class="h6 fw-bold">£{{ item.total_price }}</span></div>
+              <div class="col-6 text-end"><span class="h6 fw-bold">£{{ product.price }}</span></div>
             </div>
           </div>
           <div class="col">
@@ -36,12 +36,10 @@
                   <option value="">3</option>
                   <option value="">4</option>
                 </select>
-                <button type="button" id="update-button" data-index="{{product.id}}"
-                  class="btn btn-outline-secondary btn-sm update-button">
+                <button type="button" id="update-button" data-index="{{product.id}}" class="btn btn-outline-secondary btn-sm update-button">
                   Update
                 </button>
-                <button type="button" id="delete-button" data-index="{{product.id}}"
-                  class="btn btn-outline-secondary btn-sm delete-button">
+                <button type="button" id="delete-button" data-index="{{product.id}}" class="btn btn-outline-secondary btn-sm delete-button">
                   Delete
                 </button>
               </div>
@@ -62,6 +60,7 @@
 </main>
 
 <script>
+  //delete item
   $(document).on('click', '.delete-button', function (e) {
     e.preventDefault();
     var prodid = $(this).data('index');
@@ -76,6 +75,29 @@
       success: function (json) {
         console.log(prodid)
         $('.product-item[data-index="'+ prodid +'"]').remove();
+        document.getElementById("subtotal").innerHTML = json.subtotal
+        document.getElementById("basket-qty").innerHTML = json.qty
+      },
+      error: function (xhr, errmsg, err) {}
+    });
+  })
+
+  //update button
+  $(document).on('click', '.update-button', function (e) {
+    e.preventDefault();
+    var prodid = $(this).data('index');
+    $.ajax({
+      type: 'POST',
+      url: '{% url "basket:basket_update" %}',
+      data: {
+        productid: $(this).data('index'),
+        productqty: $('#select'+ prodid +' option:selected').text(),
+        csrfmiddlewaretoken: "{{csrf_token}}",
+        action: 'post',
+      },
+      success: function (json) {
+        document.getElementById("basket-qty").innerHTML = json.qty
+        document.getElementById("subtotal").innerHTML = json.subtotal
       },
       error: function (xhr, errmsg, err) {}
     });
