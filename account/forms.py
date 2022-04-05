@@ -1,6 +1,18 @@
 from django import forms
+from django.contrib.auth.forms import AuthenticationForm
 
 from .models import UserBase
+
+
+class UserLoginForm(AuthenticationForm):
+    
+    username = forms.CharField(widget=forms.TextInput(
+        attrs={'class': 'form-control mb-3', 'placeholder': 'Username',
+               'id': 'login-username'}))
+    password = forms.CharField(widget=forms.PasswordInput(
+        attrs={'class': 'form-control', 'placeholder': 'Password',
+               'id': 'login-pwd'}))
+
 
 
 class RegistrationForm(forms.ModelForm):
@@ -44,6 +56,8 @@ class RegistrationForm(forms.ModelForm):
             {'class': 'form-control mb-3', 'placeholder': 'Password'})
         self.fields['password2'].widget.attrs.update(
             {'class': 'form-control mb-3', 'placeholder': 'Repeat password'})
+
+            
         
     
 
