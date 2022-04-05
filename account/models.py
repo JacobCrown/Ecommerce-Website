@@ -1,10 +1,8 @@
-from multiprocessing.managers import BaseManager
-from multiprocessing.sharedctypes import Value
 from django.contrib.auth.models import (AbstractBaseUser, BaseUserManager,
                                         PermissionsMixin)
+from django.core.mail import send_mail
 from django.db import models
-from django.utils.translation import ugettext_lazy as _
-
+from django.utils.translation import gettext_lazy as _
 from django_countries.fields import CountryField
 
 
@@ -43,7 +41,7 @@ class UserBase(AbstractBaseUser, PermissionsMixin):
     
     email = models.EmailField(_('email address'), unique=True)
     user_name = models.CharField(max_length=150, unique=True)
-    first_name = models.CharField(max_length=150, unique=True)
+    first_name = models.CharField(max_length=150, blank=True)
     about = models.TextField(_('about'), max_length=500, blank=True)
     # delivery details
     country = CountryField()
@@ -62,6 +60,15 @@ class UserBase(AbstractBaseUser, PermissionsMixin):
 
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ['user_name']
+
+    def email_user(self, subject, message):
+        send_mail(
+            subject,
+            message,
+            'l@1.com',
+            [self.email],
+            fail_silently=False,
+        )
 
     class Meta:
         verbose_name = 'Accounts'

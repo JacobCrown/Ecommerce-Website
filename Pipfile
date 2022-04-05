@@ -10,6 +10,7 @@ coverage = "*"
 flake8 = "*"
 flake8-isort = "*"
 django-countries = "*"
+six = "*"
 
 [dev-packages]
 autopep8 = "*"
