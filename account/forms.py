@@ -69,16 +69,16 @@ class UserEditForm(forms.ModelForm):
     #         attrs={'class': 'form-control mb-3', 'placeholder': 'Username', 'id': 'form-firstname', 'readonly': 'readonly'}))
 
     first_name = forms.CharField(
-        label='Username', min_length=4, max_length=50, widget=forms.TextInput(
+        label='First Name', min_length=4, max_length=50, widget=forms.TextInput(
             attrs={'class': 'form-control mb-3', 'placeholder': 'Firstname', 'id': 'form-lastname'}))
 
     class Meta:
         model = UserBase
-        fields = ('email', 'user_name', 'first_name',)
+        fields = ('email', 'first_name',)
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.fields['user_name'].required = True
+        self.fields['first_name'].required = True
         self.fields['email'].required = True
     
 

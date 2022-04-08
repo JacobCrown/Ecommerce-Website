@@ -18,6 +18,7 @@
 </head>
 
 <body>
+  <div>Hi {{ request.user.user_name }} !</div>
   <header class="pb-3">
     <nav class="navbar navbar-expand-md navbar-light bg-white border-bottom">
       <div class="container-fluid px-md-4">
@@ -76,7 +77,7 @@
             <span class="fs15 fw500">Logout</span>
           </a>
           {% else %}
-          <a type="button" role="button" href="" class="btn btn-outline-secondary border-0 basket-btn">
+          <a type="button" role="button" href="{% url 'account:login' %}" class="btn btn-outline-secondary border-0 basket-btn">
             <div>
               <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor"
                 class="bi bi-door-closed" viewBox="0 0 16 16">
